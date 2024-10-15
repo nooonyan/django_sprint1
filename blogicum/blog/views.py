@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 posts = [
     {
-        'id': 0,
+        'id': 10,
         'location': 'Остров отчаянья',
         'date': '30 сентября 1659 года',
         'category': 'travel',
@@ -52,7 +52,12 @@ def index(request):
 
 def post_detail(request, id):
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    post = [post for post in posts if post['id'] == id]
+    if len(post) > 0:
+        post = post[0]
+    else:
+        return redirect('/')
+    context = {'post': post}
     return render(request, template, context)
 
 
